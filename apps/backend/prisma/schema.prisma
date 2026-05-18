@@ -14,20 +14,427 @@ datasource db {
 }
 
 
-model Chat {
-  id        String    @id @default(uuid()) @db.Uuid
-  updatedAt DateTime  @default(now()) @map("updated_at")
-  messages  Message[]
+model User {
+  id           String     @id @default(uuid()) @db.Uuid
+  googleUserId String     @unique @map("google_user_id")
+  email        String     @unique
+  displayName  String     @map("display_name")
+  password     String     @db.VarChar(500)
+  phoneNumber  String     @db.VarChar(50)
+  avatarUrl    String?    @map("avatar_url")
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  lastLoginAt  DateTime?  @map("last_login_at")
 
-  @@map("chat_conversations")
+  ownedBotProfiles      BotProfile[]      @relation("BotProfileOwner")
+  ownedChatSessions     ChatSession[]     @relation("ChatSessionOwner")
+  chatParticipants      ChatParticipant[]
+  invitedParticipants   ChatParticipant[] @relation("ChatParticipantInvitedBy")
+  createdShareLinks     ChatShareLink[]   @relation("ChatShareLinkCreatedBy")
+  sentMessages          Message[]         @relation("MessageSenderUser")
+  aiRequestsRequestedBy AiRequest[]       @relation("AiRequestRequestedBy")
+  pointWallet           PointWallet?
+
+  @@map("users")
+}
+
+model AiProvider {
+  id          String           @id @default(uuid()) @db.Uuid
+  key         String           @unique
+  displayName String           @map("display_name")
+  status      AiProviderStatus @default(ACTIVE)
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  models     AiModel[]
+  aiRequests AiRequest[]
+
+  @@map("ai_providers")
+}
+
+model AiModel {
+  id                String        @id @default(uuid()) @db.Uuid
+  providerId        String        @db.Uuid @map("provider_id")
+  externalModelId   String        @unique @map("external_model_id")
+  modelKey          String        @map("model_key")
+  displayName       String        @map("display_name")
+  supportsVision    Boolean       @default(false) @map("supports_vision")
+  supportsTools     Boolean       @default(false) @map("supports_tools")
+  supportsStreaming Boolean       @default(true) @map("supports_streaming")
+  status            AiModelStatus @default(ACTIVE)
+  metadataJson      Json?         @map("metadata_json")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  provider               AiProvider   @relation(fields: [providerId], references: [id])
+  defaultForBots         BotProfile[]
+  defaultForChatSessions ChatSession[]
+  messages               Message[]
+  aiRequests             AiRequest[]
+  pricingRules           PricingRule[]
+
+  @@unique([providerId, modelKey])
+  @@map("ai_models")
+}
+
+model BotProfile {
+  id                   String    @id @default(uuid()) @db.Uuid
+  ownerUserId          String?   @db.Uuid @map("owner_user_id")
+  botType              BotType   @map("bot_type")
+  baseBotProfileId     String?   @db.Uuid @map("base_bot_profile_id")
+  name                 String
+  description          String?
+  avatarUrl            String?   @map("avatar_url")
+  systemPrompt         String    @map("system_prompt")
+  greetingMessagesJson Json?     @map("greeting_messages_json")
+  defaultModelId       String?   @db.Uuid @map("default_model_id")
+  temperatureDefault   Decimal?  @db.Decimal(18, 4) @map("temperature_default")
+  maxTokensDefault     Int?      @map("max_tokens_default")
+  isActive             Boolean   @default(true) @map("is_active")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  owner                  User?         @relation("BotProfileOwner", fields: [ownerUserId], references: [id])
+  baseBotProfile         BotProfile?   @relation("BotProfileBase", fields: [baseBotProfileId], references: [id])
+  derivedBots            BotProfile[]  @relation("BotProfileBase")
+  defaultModel           AiModel?      @relation(fields: [defaultModelId], references: [id])
+  sentMessages           Message[]     @relation("MessageSenderBot")
+  aiRequests             AiRequest[]
+  defaultForChatSessions ChatSession[] @relation("ChatSessionDefaultBot")
+
+  @@map("bot_profiles")
+}
+
+model ChatSession {
+  id                  String               @id @default(uuid()) @db.Uuid
+  ownerUserId         String               @db.Uuid @map("owner_user_id")
+  title               String?
+  defaultBotProfileId String?              @db.Uuid @map("default_bot_profile_id")
+  defaultModelId      String?              @db.Uuid @map("default_model_id")
+  visibility          ChatSessionVisibility @default(PRIVATE)
+  status              ChatSessionStatus    @default(ACTIVE)
+  lastMessageAt       DateTime?            @map("last_message_at")
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+
+  owner             User              @relation("ChatSessionOwner", fields: [ownerUserId], references: [id])
+  defaultBotProfile BotProfile?       @relation("ChatSessionDefaultBot", fields: [defaultBotProfileId], references: [id])
+  defaultModel      AiModel?          @relation(fields: [defaultModelId], references: [id])
+  participants      ChatParticipant[]
+  shareLinks        ChatShareLink[]
+  messages          Message[]
+  aiRequests        AiRequest[]
+
+  @@map("chat_sessions")
+}
+
+model ChatParticipant {
+  id              String                @id @default(uuid()) @db.Uuid
+  chatSessionId   String                @db.Uuid @map("chat_session_id")
+  userId          String                @db.Uuid @map("user_id")
+  role            ChatParticipantRole   @default(EDITOR)
+  status          ChatParticipantStatus @default(ACTIVE)
+  invitedByUserId String?               @db.Uuid @map("invited_by_user_id")
+  joinedAt        DateTime?             @map("joined_at")
+  createdAt       DateTime              @default(now()) @map("created_at")
+
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  invitedByUser User?       @relation("ChatParticipantInvitedBy", fields: [invitedByUserId], references: [id])
+
+  @@unique([chatSessionId, userId])
+  @@map("chat_participants")
+}
+
+model ChatShareLink {
+  id              String             @id @default(uuid()) @db.Uuid
+  chatSessionId   String             @db.Uuid @map("chat_session_id")
+  createdByUserId String             @db.Uuid @map("created_by_user_id")
+  token           String             @unique
+  permission      ChatSharePermission @default(VIEW)
+  expiresAt       DateTime?          @map("expires_at")
+  maxUses         Int?               @map("max_uses")
+  usedCount       Int                @default(0) @map("used_count")
+  isActive        Boolean            @default(true) @map("is_active")
+  createdAt       DateTime           @default(now()) @map("created_at")
+
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id])
+  createdByUser User        @relation("ChatShareLinkCreatedBy", fields: [createdByUserId], references: [id])
+
+  @@map("chat_share_links")
 }
 
 model Message {
-  id        String   @id @default(uuid()) @db.Uuid
-  chatId    String   @map("conversation_id") @db.Uuid
-  content   Json
-  createdAt DateTime @default(now()) @map("created_at")
-  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id                 String         @id @default(uuid()) @db.Uuid
+  chatSessionId      String         @db.Uuid @map("chat_session_id")
+  senderType         MessageSenderType @map("sender_type")
+  senderUserId       String?        @db.Uuid @map("sender_user_id")
+  senderBotProfileId String?        @db.Uuid @map("sender_bot_profile_id")
+  role               MessageRole
+  externalMessageId  String?        @map("external_message_id")
+  replyToMessageId   String?        @db.Uuid @map("reply_to_message_id")
+  contentText        String?        @map("content_text")
+  contentJson        Json           @map("content_json")
+  modelId            String?        @db.Uuid @map("model_id")
+  status             MessageStatus  @default(COMPLETED)
+  sequenceNo         BigInt         @map("sequence_no")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  deletedAt          DateTime?      @map("deleted_at")
 
-  @@map("chat_messages")
+  chatSession         ChatSession         @relation(fields: [chatSessionId], references: [id])
+  senderUser          User?               @relation("MessageSenderUser", fields: [senderUserId], references: [id])
+  senderBotProfile    BotProfile?         @relation("MessageSenderBot", fields: [senderBotProfileId], references: [id])
+  replyToMessage      Message?            @relation("MessageReply", fields: [replyToMessageId], references: [id])
+  replies             Message[]           @relation("MessageReply")
+  model               AiModel?            @relation(fields: [modelId], references: [id])
+  attachments         MessageAttachment[]
+  triggeredAiRequests AiRequest[]         @relation("AiRequestTriggerMessage")
+
+  @@unique([chatSessionId, sequenceNo])
+  @@index([chatSessionId, createdAt])
+  @@index([externalMessageId])
+  @@map("messages")
+}
+
+model MessageAttachment {
+  id              String                  @id @default(uuid()) @db.Uuid
+  messageId       String                  @db.Uuid @map("message_id")
+  storageProvider StorageProvider         @map("storage_provider")
+  bucketName      String                  @map("bucket_name")
+  objectKey       String                  @map("object_key")
+  publicUrl       String?                 @map("public_url")
+  fileName        String                  @map("file_name")
+  mimeType        String                  @map("mime_type")
+  fileSizeBytes   BigInt                  @map("file_size_bytes")
+  checksum        String?
+  uploadStatus    MessageAttachmentStatus @default(UPLOADED) @map("upload_status")
+  isTemporary     Boolean                 @default(false) @map("is_temporary")
+  expiresAt       DateTime?               @map("expires_at")
+  metadataJson    Json?                   @map("metadata_json")
+  createdAt       DateTime                @default(now()) @map("created_at")
+  deletedAt       DateTime?               @map("deleted_at")
+
+  message Message @relation(fields: [messageId], references: [id])
+
+  @@map("message_attachments")
+}
+
+model AiRequest {
+  id                String          @id @default(uuid()) @db.Uuid
+  chatSessionId     String          @db.Uuid @map("chat_session_id")
+  triggerMessageId  String?         @db.Uuid @map("trigger_message_id")
+  requestedByUserId String?         @db.Uuid @map("requested_by_user_id")
+  botProfileId      String?         @db.Uuid @map("bot_profile_id")
+  providerId        String          @db.Uuid @map("provider_id")
+  modelId           String          @db.Uuid @map("model_id")
+  inputTokens       Int?            @map("input_tokens")
+  outputTokens      Int?            @map("output_tokens")
+  latencyMs         Int?            @map("latency_ms")
+  status            AiRequestStatus @default(SUCCESS)
+  errorCode         String?         @map("error_code")
+  errorMessage      String?         @map("error_message")
+  startedAt         DateTime        @default(now()) @map("started_at")
+  finishedAt        DateTime?       @map("finished_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+
+  chatSession     ChatSession  @relation(fields: [chatSessionId], references: [id])
+  triggerMessage  Message?     @relation("AiRequestTriggerMessage", fields: [triggerMessageId], references: [id])
+  requestedByUser User?        @relation("AiRequestRequestedBy", fields: [requestedByUserId], references: [id])
+  botProfile      BotProfile?  @relation(fields: [botProfileId], references: [id])
+  provider        AiProvider   @relation(fields: [providerId], references: [id])
+  model           AiModel      @relation(fields: [modelId], references: [id])
+  usageCharge     UsageCharge?
+
+  @@index([chatSessionId, createdAt])
+  @@index([modelId, createdAt])
+  @@map("ai_requests")
+}
+
+model PointWallet {
+  id         String            @id @default(uuid()) @db.Uuid
+  userId     String            @unique @db.Uuid @map("user_id")
+  balance    Decimal           @default(0) @db.Decimal(18, 4)
+  status     PointWalletStatus @default(ACTIVE)
+  createdAt  DateTime          @default(now()) @map("created_at")
+  updatedAt  DateTime          @updatedAt @map("updated_at")
+
+  user         User               @relation(fields: [userId], references: [id])
+  transactions PointTransaction[]
+  usageCharges UsageCharge[]
+
+  @@map("point_wallets")
+}
+
+model PointTransaction {
+  id              String               @id @default(uuid()) @db.Uuid
+  walletId        String               @db.Uuid @map("wallet_id")
+  transactionType PointTransactionType @map("transaction_type")
+  amount          Decimal              @db.Decimal(18, 4)
+  balanceBefore   Decimal              @db.Decimal(18, 4) @map("balance_before")
+  balanceAfter    Decimal              @db.Decimal(18, 4) @map("balance_after")
+  referenceType   PointReferenceType?  @map("reference_type")
+  referenceId     String?              @db.Uuid @map("reference_id")
+  description     String?
+  createdAt       DateTime             @default(now()) @map("created_at")
+
+  wallet       PointWallet        @relation(fields: [walletId], references: [id])
+  usageCharges UsageCharge[]
+
+  @@index([walletId, createdAt])
+  @@map("point_transactions")
+}
+
+model PricingRule {
+  id                      String   @id @default(uuid()) @db.Uuid
+  modelId                 String   @db.Uuid @map("model_id")
+  inputPointsPer1kTokens  Decimal  @db.Decimal(18, 4) @map("input_points_per_1k_tokens")
+  outputPointsPer1kTokens Decimal  @db.Decimal(18, 4) @map("output_points_per_1k_tokens")
+  minimumPointsPerRequest Decimal? @db.Decimal(18, 4) @map("minimum_points_per_request")
+  isActive                Boolean  @default(true) @map("is_active")
+  effectiveFrom           DateTime @map("effective_from")
+  effectiveTo             DateTime? @map("effective_to")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  model        AiModel       @relation(fields: [modelId], references: [id])
+  usageCharges UsageCharge[]
+
+  @@map("pricing_rules")
+}
+
+model UsageCharge {
+  id                 String   @id @default(uuid()) @db.Uuid
+  aiRequestId        String   @unique @db.Uuid @map("ai_request_id")
+  walletId           String   @db.Uuid @map("wallet_id")
+  pricingRuleId      String   @db.Uuid @map("pricing_rule_id")
+  inputTokens        Int      @map("input_tokens")
+  outputTokens       Int      @map("output_tokens")
+  chargedPoints      Decimal  @db.Decimal(18, 4) @map("charged_points")
+  pointTransactionId String   @db.Uuid @map("point_transaction_id")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  aiRequest        AiRequest        @relation(fields: [aiRequestId], references: [id])
+  wallet           PointWallet      @relation(fields: [walletId], references: [id])
+  pricingRule      PricingRule      @relation(fields: [pricingRuleId], references: [id])
+  pointTransaction PointTransaction @relation(fields: [pointTransactionId], references: [id])
+
+  @@map("usage_charges")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AiProviderStatus {
+  ACTIVE
+  INACTIVE
+  DISABLED
+}
+
+enum AiModelStatus {
+  ACTIVE
+  INACTIVE
+  DISABLED
+}
+
+enum BotType {
+  PROMPT
+  IMAGE_GENERATION
+  VIDEO_GENERATION
+  ROLEPLAY
+  SCRIPT
+  SERVER
+}
+
+enum ChatSessionVisibility {
+  PRIVATE
+  INVITED
+  PUBLIC_READONLY
+}
+
+enum ChatSessionStatus {
+  ACTIVE
+  DELETED
+}
+
+enum ChatParticipantRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum ChatParticipantStatus {
+  ACTIVE
+  INVITED
+  REMOVED
+  LEFT
+}
+
+enum ChatSharePermission {
+  VIEW
+  CHAT
+}
+
+enum MessageSenderType {
+  USER
+  BOT
+  SYSTEM
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+enum MessageStatus {
+  PENDING
+  STREAMING
+  COMPLETED
+  FAILED
+  EDITED
+  DELETED
+}
+
+enum StorageProvider {
+  S3
+  R2
+  SUPABASE
+}
+
+enum MessageAttachmentStatus {
+  PENDING
+  UPLOADED
+  FAILED
+  DELETED
+}
+
+enum AiRequestStatus {
+  SUCCESS
+  ERROR
+  TIMEOUT
+  CANCELLED
+}
+
+enum PointWalletStatus {
+  ACTIVE
+  LOCKED
+}
+
+enum PointTransactionType {
+  TOPUP
+  USAGE_DEBIT
+  REFUND
+  BONUS
+  ADMIN_ADJUSTMENT
+}
+
+enum PointReferenceType {
+  AI_REQUEST
+  PAYMENT
+  ADMIN_ACTION
 }
