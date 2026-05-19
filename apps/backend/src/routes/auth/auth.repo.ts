@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
+import { RegisterBodyType, UserType } from 'src/routes/auth/auth.model'
 import { PrismaService } from 'src/shared/services/prisma.service'
-import { RegisterBodyType, UserType } from 'src/user/user.model'
 
 @Injectable()
-export class UserRepository {
+export class AuthRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createUser(body: Omit<RegisterBodyType, 'confirmPassword'>): Promise<Omit<UserType, 'password'>> {
+  async createAuth(body: Omit<RegisterBodyType, 'confirmPassword'>): Promise<Omit<UserType, 'password'>> {
     console.log('data từ repo:', body)
-    const user = await this.prismaService.user.create({
+    const auth = await this.prismaService.user.create({
       data: {
         email: body.email,
         password: body.password,
@@ -19,7 +19,7 @@ export class UserRepository {
         password: true
       }
     })
-    console.log('User từ repo:', user)
-    return user
+    console.log('Auth từ repo:', auth)
+    return auth
   }
 }

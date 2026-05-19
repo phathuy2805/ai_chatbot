@@ -6,10 +6,10 @@ import { ZodSerializerInterceptor } from 'nestjs-zod'
 import { HttpExceptionFilter } from 'src/shared/filters/http-exception.filter'
 import { CustomZodValidationPipe } from 'src/shared/pipes/custom-zod-validation.pipe'
 import { SharedModule } from 'src/shared/shared.module'
-import { UserModule } from './user/user.module'
+import { AuthModule } from './routes/auth/auth.module'
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), SharedModule, UserModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), SharedModule, AuthModule],
   controllers: [],
   providers: [
     {

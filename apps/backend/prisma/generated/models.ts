@@ -9,6 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User.js'
+export type * from './models/RefreshToken.js'
 export type * from './models/AiProvider.js'
 export type * from './models/AiModel.js'
 export type * from './models/BotProfile.js'

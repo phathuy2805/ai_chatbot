@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { isUniqueConstraintPrismaError } from 'src/helper'
+import { EmailAlreadyExistsException } from 'src/routes/auth/auth.error'
+import { RegisterBodyType } from 'src/routes/auth/auth.model'
+import { AuthRepository } from 'src/routes/auth/auth.repo'
 import { HashingService } from 'src/shared/services/hashing.service'
-import { EmailAlreadyExistsException } from 'src/user/user.error'
-import { RegisterBodyType } from 'src/user/user.model'
-import { UserRepository } from 'src/user/user.repo'
 
 @Injectable()
-export class UserService {
+export class AuthService {
   constructor(
-    private readonly userRepo: UserRepository,
+    private readonly authRepo: AuthRepository,
     private readonly hashingService: HashingService
   ) {}
 
@@ -17,14 +17,14 @@ export class UserService {
       console.log('data từ service:', body)
       const hashedPassword = await this.hashingService.hashPassword(body.password)
       console.log('Hash password từ service:', hashedPassword)
-      const user = await this.userRepo.createUser({
+      const auth = await this.authRepo.createAuth({
         email: body.email,
         phoneNumber: body.phoneNumber,
         displayName: body.displayName,
         password: hashedPassword
       })
-      console.log('User từ service:', user)
-      return user
+      console.log('Auth từ service:', auth)
+      return auth
     } catch (error) {
       if (isUniqueConstraintPrismaError(error)) {
         throw EmailAlreadyExistsException

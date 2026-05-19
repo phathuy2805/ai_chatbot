@@ -38,6 +38,18 @@ export const RegisterResponseSchema = UserSchema.omit({
   password: true
 })
 
+export const LoginBodySchema = UserSchema.pick({
+  email: true,
+  password: true
+})
+
+export const LoginResponseSchema = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string()
+})
+
 export type UserType = z.infer<typeof UserSchema>
 export type RegisterBodyType = z.infer<typeof RegisterBodySchema>
 export type RegisterResponseType = z.infer<typeof RegisterResponseSchema>
+export type LoginBodyType = z.infer<typeof LoginBodySchema>
+export type LoginResponseType = z.infer<typeof LoginResponseSchema>
