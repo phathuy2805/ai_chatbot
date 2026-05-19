@@ -18,12 +18,72 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
- * Model Chat
+ * Model User
  * 
  */
-export type Chat = Prisma.ChatModel
+export type User = Prisma.UserModel
+/**
+ * Model AiProvider
+ * 
+ */
+export type AiProvider = Prisma.AiProviderModel
+/**
+ * Model AiModel
+ * 
+ */
+export type AiModel = Prisma.AiModelModel
+/**
+ * Model BotProfile
+ * 
+ */
+export type BotProfile = Prisma.BotProfileModel
+/**
+ * Model ChatSession
+ * 
+ */
+export type ChatSession = Prisma.ChatSessionModel
+/**
+ * Model ChatParticipant
+ * 
+ */
+export type ChatParticipant = Prisma.ChatParticipantModel
+/**
+ * Model ChatShareLink
+ * 
+ */
+export type ChatShareLink = Prisma.ChatShareLinkModel
 /**
  * Model Message
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model MessageAttachment
+ * 
+ */
+export type MessageAttachment = Prisma.MessageAttachmentModel
+/**
+ * Model AiRequest
+ * 
+ */
+export type AiRequest = Prisma.AiRequestModel
+/**
+ * Model PointWallet
+ * 
+ */
+export type PointWallet = Prisma.PointWalletModel
+/**
+ * Model PointTransaction
+ * 
+ */
+export type PointTransaction = Prisma.PointTransactionModel
+/**
+ * Model PricingRule
+ * 
+ */
+export type PricingRule = Prisma.PricingRuleModel
+/**
+ * Model UsageCharge
+ * 
+ */
+export type UsageCharge = Prisma.UsageChargeModel

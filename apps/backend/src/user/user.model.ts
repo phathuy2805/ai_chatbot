@@ -13,3 +13,26 @@ export const UserSchema = z.object({
   updatedAt: z.date(),
   lastLoginAt: z.date().optional()
 })
+
+export const RegisterBodySchema = UserSchema.pick({
+  email: true,
+  password: true,
+  displayName: true,
+  phoneNumber: true
+})
+  .extend({
+    confirmPassword: z.string().min(6).max(100)
+  })
+  .strict()
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Password and confirm password must match',
+        path: ['confirmPassword']
+      })
+    }
+  })
+
+export type UserType = z.infer<typeof UserSchema>
+export type RegisterBodyType = z.infer<typeof RegisterBodySchema>

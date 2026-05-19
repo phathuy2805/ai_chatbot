@@ -5,6 +5,9 @@ node_modules
 .pnp
 .pnp.js
 
+# Prisma generated files
+**/prisma/generated/
+
 # Local env files
 .env
 .env.local

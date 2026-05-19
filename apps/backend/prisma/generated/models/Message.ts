@@ -20,48 +20,138 @@ export type MessageModel = runtime.Types.Result.DefaultSelection<Prisma.$Message
 
 export type AggregateMessage = {
   _count: MessageCountAggregateOutputType | null
+  _avg: MessageAvgAggregateOutputType | null
+  _sum: MessageSumAggregateOutputType | null
   _min: MessageMinAggregateOutputType | null
   _max: MessageMaxAggregateOutputType | null
 }
 
+export type MessageAvgAggregateOutputType = {
+  sequenceNo: number | null
+}
+
+export type MessageSumAggregateOutputType = {
+  sequenceNo: bigint | null
+}
+
 export type MessageMinAggregateOutputType = {
   id: string | null
-  chatId: string | null
+  chatSessionId: string | null
+  senderType: $Enums.MessageSenderType | null
+  senderUserId: string | null
+  senderBotProfileId: string | null
+  role: $Enums.MessageRole | null
+  externalMessageId: string | null
+  replyToMessageId: string | null
+  contentText: string | null
+  modelId: string | null
+  status: $Enums.MessageStatus | null
+  sequenceNo: bigint | null
   createdAt: Date | null
+  updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type MessageMaxAggregateOutputType = {
   id: string | null
-  chatId: string | null
+  chatSessionId: string | null
+  senderType: $Enums.MessageSenderType | null
+  senderUserId: string | null
+  senderBotProfileId: string | null
+  role: $Enums.MessageRole | null
+  externalMessageId: string | null
+  replyToMessageId: string | null
+  contentText: string | null
+  modelId: string | null
+  status: $Enums.MessageStatus | null
+  sequenceNo: bigint | null
   createdAt: Date | null
+  updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type MessageCountAggregateOutputType = {
   id: number
-  chatId: number
-  content: number
+  chatSessionId: number
+  senderType: number
+  senderUserId: number
+  senderBotProfileId: number
+  role: number
+  externalMessageId: number
+  replyToMessageId: number
+  contentText: number
+  contentJson: number
+  modelId: number
+  status: number
+  sequenceNo: number
   createdAt: number
+  updatedAt: number
+  deletedAt: number
   _all: number
 }
 
 
+export type MessageAvgAggregateInputType = {
+  sequenceNo?: true
+}
+
+export type MessageSumAggregateInputType = {
+  sequenceNo?: true
+}
+
 export type MessageMinAggregateInputType = {
   id?: true
-  chatId?: true
+  chatSessionId?: true
+  senderType?: true
+  senderUserId?: true
+  senderBotProfileId?: true
+  role?: true
+  externalMessageId?: true
+  replyToMessageId?: true
+  contentText?: true
+  modelId?: true
+  status?: true
+  sequenceNo?: true
   createdAt?: true
+  updatedAt?: true
+  deletedAt?: true
 }
 
 export type MessageMaxAggregateInputType = {
   id?: true
-  chatId?: true
+  chatSessionId?: true
+  senderType?: true
+  senderUserId?: true
+  senderBotProfileId?: true
+  role?: true
+  externalMessageId?: true
+  replyToMessageId?: true
+  contentText?: true
+  modelId?: true
+  status?: true
+  sequenceNo?: true
   createdAt?: true
+  updatedAt?: true
+  deletedAt?: true
 }
 
 export type MessageCountAggregateInputType = {
   id?: true
-  chatId?: true
-  content?: true
+  chatSessionId?: true
+  senderType?: true
+  senderUserId?: true
+  senderBotProfileId?: true
+  role?: true
+  externalMessageId?: true
+  replyToMessageId?: true
+  contentText?: true
+  contentJson?: true
+  modelId?: true
+  status?: true
+  sequenceNo?: true
   createdAt?: true
+  updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -103,6 +193,18 @@ export type MessageAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MessageAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MessageSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MessageMinAggregateInputType
@@ -133,16 +235,32 @@ export type MessageGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: MessageCountAggregateInputType | true
+  _avg?: MessageAvgAggregateInputType
+  _sum?: MessageSumAggregateInputType
   _min?: MessageMinAggregateInputType
   _max?: MessageMaxAggregateInputType
 }
 
 export type MessageGroupByOutputType = {
   id: string
-  chatId: string
-  content: runtime.JsonValue
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId: string | null
+  senderBotProfileId: string | null
+  role: $Enums.MessageRole
+  externalMessageId: string | null
+  replyToMessageId: string | null
+  contentText: string | null
+  contentJson: runtime.JsonValue
+  modelId: string | null
+  status: $Enums.MessageStatus
+  sequenceNo: bigint
   createdAt: Date
+  updatedAt: Date
+  deletedAt: Date | null
   _count: MessageCountAggregateOutputType | null
+  _avg: MessageAvgAggregateOutputType | null
+  _sum: MessageSumAggregateOutputType | null
   _min: MessageMinAggregateOutputType | null
   _max: MessageMaxAggregateOutputType | null
 }
@@ -167,39 +285,111 @@ export type MessageWhereInput = {
   OR?: Prisma.MessageWhereInput[]
   NOT?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
   id?: Prisma.UuidFilter<"Message"> | string
-  chatId?: Prisma.UuidFilter<"Message"> | string
-  content?: Prisma.JsonFilter<"Message">
+  chatSessionId?: Prisma.UuidFilter<"Message"> | string
+  senderType?: Prisma.EnumMessageSenderTypeFilter<"Message"> | $Enums.MessageSenderType
+  senderUserId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  senderBotProfileId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  role?: Prisma.EnumMessageRoleFilter<"Message"> | $Enums.MessageRole
+  externalMessageId?: Prisma.StringNullableFilter<"Message"> | string | null
+  replyToMessageId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  contentText?: Prisma.StringNullableFilter<"Message"> | string | null
+  contentJson?: Prisma.JsonFilter<"Message">
+  modelId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  status?: Prisma.EnumMessageStatusFilter<"Message"> | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFilter<"Message"> | bigint | number
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
+  updatedAt?: Prisma.DateTimeFilter<"Message"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Message"> | Date | string | null
+  chatSession?: Prisma.XOR<Prisma.ChatSessionScalarRelationFilter, Prisma.ChatSessionWhereInput>
+  senderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  senderBotProfile?: Prisma.XOR<Prisma.BotProfileNullableScalarRelationFilter, Prisma.BotProfileWhereInput> | null
+  replyToMessage?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
+  replies?: Prisma.MessageListRelationFilter
+  model?: Prisma.XOR<Prisma.AiModelNullableScalarRelationFilter, Prisma.AiModelWhereInput> | null
+  attachments?: Prisma.MessageAttachmentListRelationFilter
+  triggeredAiRequests?: Prisma.AiRequestListRelationFilter
 }
 
 export type MessageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  chatSessionId?: Prisma.SortOrder
+  senderType?: Prisma.SortOrder
+  senderUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  senderBotProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  externalMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
+  replyToMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentJson?: Prisma.SortOrder
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  sequenceNo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  chat?: Prisma.ChatOrderByWithRelationInput
+  updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  chatSession?: Prisma.ChatSessionOrderByWithRelationInput
+  senderUser?: Prisma.UserOrderByWithRelationInput
+  senderBotProfile?: Prisma.BotProfileOrderByWithRelationInput
+  replyToMessage?: Prisma.MessageOrderByWithRelationInput
+  replies?: Prisma.MessageOrderByRelationAggregateInput
+  model?: Prisma.AiModelOrderByWithRelationInput
+  attachments?: Prisma.MessageAttachmentOrderByRelationAggregateInput
+  triggeredAiRequests?: Prisma.AiRequestOrderByRelationAggregateInput
 }
 
 export type MessageWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  chatSessionId_sequenceNo?: Prisma.MessageChatSessionIdSequenceNoCompoundUniqueInput
   AND?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
   OR?: Prisma.MessageWhereInput[]
   NOT?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
-  chatId?: Prisma.UuidFilter<"Message"> | string
-  content?: Prisma.JsonFilter<"Message">
+  chatSessionId?: Prisma.UuidFilter<"Message"> | string
+  senderType?: Prisma.EnumMessageSenderTypeFilter<"Message"> | $Enums.MessageSenderType
+  senderUserId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  senderBotProfileId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  role?: Prisma.EnumMessageRoleFilter<"Message"> | $Enums.MessageRole
+  externalMessageId?: Prisma.StringNullableFilter<"Message"> | string | null
+  replyToMessageId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  contentText?: Prisma.StringNullableFilter<"Message"> | string | null
+  contentJson?: Prisma.JsonFilter<"Message">
+  modelId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  status?: Prisma.EnumMessageStatusFilter<"Message"> | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFilter<"Message"> | bigint | number
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  chat?: Prisma.XOR<Prisma.ChatScalarRelationFilter, Prisma.ChatWhereInput>
-}, "id">
+  updatedAt?: Prisma.DateTimeFilter<"Message"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Message"> | Date | string | null
+  chatSession?: Prisma.XOR<Prisma.ChatSessionScalarRelationFilter, Prisma.ChatSessionWhereInput>
+  senderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  senderBotProfile?: Prisma.XOR<Prisma.BotProfileNullableScalarRelationFilter, Prisma.BotProfileWhereInput> | null
+  replyToMessage?: Prisma.XOR<Prisma.MessageNullableScalarRelationFilter, Prisma.MessageWhereInput> | null
+  replies?: Prisma.MessageListRelationFilter
+  model?: Prisma.XOR<Prisma.AiModelNullableScalarRelationFilter, Prisma.AiModelWhereInput> | null
+  attachments?: Prisma.MessageAttachmentListRelationFilter
+  triggeredAiRequests?: Prisma.AiRequestListRelationFilter
+}, "id" | "chatSessionId_sequenceNo">
 
 export type MessageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  chatSessionId?: Prisma.SortOrder
+  senderType?: Prisma.SortOrder
+  senderUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  senderBotProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  externalMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
+  replyToMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentJson?: Prisma.SortOrder
+  modelId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  sequenceNo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MessageCountOrderByAggregateInput
+  _avg?: Prisma.MessageAvgOrderByAggregateInput
   _max?: Prisma.MessageMaxOrderByAggregateInput
   _min?: Prisma.MessageMinOrderByAggregateInput
+  _sum?: Prisma.MessageSumOrderByAggregateInput
 }
 
 export type MessageScalarWhereWithAggregatesInput = {
@@ -207,57 +397,161 @@ export type MessageScalarWhereWithAggregatesInput = {
   OR?: Prisma.MessageScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MessageScalarWhereWithAggregatesInput | Prisma.MessageScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Message"> | string
-  chatId?: Prisma.UuidWithAggregatesFilter<"Message"> | string
-  content?: Prisma.JsonWithAggregatesFilter<"Message">
+  chatSessionId?: Prisma.UuidWithAggregatesFilter<"Message"> | string
+  senderType?: Prisma.EnumMessageSenderTypeWithAggregatesFilter<"Message"> | $Enums.MessageSenderType
+  senderUserId?: Prisma.UuidNullableWithAggregatesFilter<"Message"> | string | null
+  senderBotProfileId?: Prisma.UuidNullableWithAggregatesFilter<"Message"> | string | null
+  role?: Prisma.EnumMessageRoleWithAggregatesFilter<"Message"> | $Enums.MessageRole
+  externalMessageId?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
+  replyToMessageId?: Prisma.UuidNullableWithAggregatesFilter<"Message"> | string | null
+  contentText?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
+  contentJson?: Prisma.JsonWithAggregatesFilter<"Message">
+  modelId?: Prisma.UuidNullableWithAggregatesFilter<"Message"> | string | null
+  status?: Prisma.EnumMessageStatusWithAggregatesFilter<"Message"> | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntWithAggregatesFilter<"Message"> | bigint | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Message"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Message"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
 }
 
 export type MessageCreateInput = {
   id?: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
   createdAt?: Date | string
-  chat: Prisma.ChatCreateNestedOneWithoutMessagesInput
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
 }
 
 export type MessageUncheckedCreateInput = {
   id?: string
-  chatId: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
   createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
 }
 
 export type MessageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  chat?: Prisma.ChatUpdateOneRequiredWithoutMessagesNestedInput
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
 }
 
 export type MessageUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
 }
 
 export type MessageCreateManyInput = {
   id?: string
-  chatId: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
   createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type MessageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MessageUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type MessageListRelationFilter = {
@@ -270,103 +564,426 @@ export type MessageOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type MessageNullableScalarRelationFilter = {
+  is?: Prisma.MessageWhereInput | null
+  isNot?: Prisma.MessageWhereInput | null
+}
+
+export type MessageChatSessionIdSequenceNoCompoundUniqueInput = {
+  chatSessionId: string
+  sequenceNo: bigint | number
+}
+
 export type MessageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  chatSessionId?: Prisma.SortOrder
+  senderType?: Prisma.SortOrder
+  senderUserId?: Prisma.SortOrder
+  senderBotProfileId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  externalMessageId?: Prisma.SortOrder
+  replyToMessageId?: Prisma.SortOrder
+  contentText?: Prisma.SortOrder
+  contentJson?: Prisma.SortOrder
+  modelId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  sequenceNo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+}
+
+export type MessageAvgOrderByAggregateInput = {
+  sequenceNo?: Prisma.SortOrder
 }
 
 export type MessageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  chatSessionId?: Prisma.SortOrder
+  senderType?: Prisma.SortOrder
+  senderUserId?: Prisma.SortOrder
+  senderBotProfileId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  externalMessageId?: Prisma.SortOrder
+  replyToMessageId?: Prisma.SortOrder
+  contentText?: Prisma.SortOrder
+  modelId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  sequenceNo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type MessageMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  chatSessionId?: Prisma.SortOrder
+  senderType?: Prisma.SortOrder
+  senderUserId?: Prisma.SortOrder
+  senderBotProfileId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  externalMessageId?: Prisma.SortOrder
+  replyToMessageId?: Prisma.SortOrder
+  contentText?: Prisma.SortOrder
+  modelId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  sequenceNo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
-export type MessageCreateNestedManyWithoutChatInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput> | Prisma.MessageCreateWithoutChatInput[] | Prisma.MessageUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatInput | Prisma.MessageCreateOrConnectWithoutChatInput[]
-  createMany?: Prisma.MessageCreateManyChatInputEnvelope
+export type MessageSumOrderByAggregateInput = {
+  sequenceNo?: Prisma.SortOrder
+}
+
+export type MessageScalarRelationFilter = {
+  is?: Prisma.MessageWhereInput
+  isNot?: Prisma.MessageWhereInput
+}
+
+export type MessageCreateNestedManyWithoutSenderUserInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput> | Prisma.MessageCreateWithoutSenderUserInput[] | Prisma.MessageUncheckedCreateWithoutSenderUserInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderUserInput | Prisma.MessageCreateOrConnectWithoutSenderUserInput[]
+  createMany?: Prisma.MessageCreateManySenderUserInputEnvelope
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageUncheckedCreateNestedManyWithoutChatInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput> | Prisma.MessageCreateWithoutChatInput[] | Prisma.MessageUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatInput | Prisma.MessageCreateOrConnectWithoutChatInput[]
-  createMany?: Prisma.MessageCreateManyChatInputEnvelope
+export type MessageUncheckedCreateNestedManyWithoutSenderUserInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput> | Prisma.MessageCreateWithoutSenderUserInput[] | Prisma.MessageUncheckedCreateWithoutSenderUserInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderUserInput | Prisma.MessageCreateOrConnectWithoutSenderUserInput[]
+  createMany?: Prisma.MessageCreateManySenderUserInputEnvelope
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageUpdateManyWithoutChatNestedInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput> | Prisma.MessageCreateWithoutChatInput[] | Prisma.MessageUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatInput | Prisma.MessageCreateOrConnectWithoutChatInput[]
-  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutChatInput | Prisma.MessageUpsertWithWhereUniqueWithoutChatInput[]
-  createMany?: Prisma.MessageCreateManyChatInputEnvelope
+export type MessageUpdateManyWithoutSenderUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput> | Prisma.MessageCreateWithoutSenderUserInput[] | Prisma.MessageUncheckedCreateWithoutSenderUserInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderUserInput | Prisma.MessageCreateOrConnectWithoutSenderUserInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSenderUserInput | Prisma.MessageUpsertWithWhereUniqueWithoutSenderUserInput[]
+  createMany?: Prisma.MessageCreateManySenderUserInputEnvelope
   set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
-  update?: Prisma.MessageUpdateWithWhereUniqueWithoutChatInput | Prisma.MessageUpdateWithWhereUniqueWithoutChatInput[]
-  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutChatInput | Prisma.MessageUpdateManyWithWhereWithoutChatInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSenderUserInput | Prisma.MessageUpdateWithWhereUniqueWithoutSenderUserInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSenderUserInput | Prisma.MessageUpdateManyWithWhereWithoutSenderUserInput[]
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
-export type MessageUncheckedUpdateManyWithoutChatNestedInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput> | Prisma.MessageCreateWithoutChatInput[] | Prisma.MessageUncheckedCreateWithoutChatInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatInput | Prisma.MessageCreateOrConnectWithoutChatInput[]
-  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutChatInput | Prisma.MessageUpsertWithWhereUniqueWithoutChatInput[]
-  createMany?: Prisma.MessageCreateManyChatInputEnvelope
+export type MessageUncheckedUpdateManyWithoutSenderUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput> | Prisma.MessageCreateWithoutSenderUserInput[] | Prisma.MessageUncheckedCreateWithoutSenderUserInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderUserInput | Prisma.MessageCreateOrConnectWithoutSenderUserInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSenderUserInput | Prisma.MessageUpsertWithWhereUniqueWithoutSenderUserInput[]
+  createMany?: Prisma.MessageCreateManySenderUserInputEnvelope
   set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
-  update?: Prisma.MessageUpdateWithWhereUniqueWithoutChatInput | Prisma.MessageUpdateWithWhereUniqueWithoutChatInput[]
-  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutChatInput | Prisma.MessageUpdateManyWithWhereWithoutChatInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSenderUserInput | Prisma.MessageUpdateWithWhereUniqueWithoutSenderUserInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSenderUserInput | Prisma.MessageUpdateManyWithWhereWithoutSenderUserInput[]
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
-export type MessageCreateWithoutChatInput = {
-  id?: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
+export type MessageCreateNestedManyWithoutModelInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput> | Prisma.MessageCreateWithoutModelInput[] | Prisma.MessageUncheckedCreateWithoutModelInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutModelInput | Prisma.MessageCreateOrConnectWithoutModelInput[]
+  createMany?: Prisma.MessageCreateManyModelInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageUncheckedCreateWithoutChatInput = {
-  id?: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
+export type MessageUncheckedCreateNestedManyWithoutModelInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput> | Prisma.MessageCreateWithoutModelInput[] | Prisma.MessageUncheckedCreateWithoutModelInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutModelInput | Prisma.MessageCreateOrConnectWithoutModelInput[]
+  createMany?: Prisma.MessageCreateManyModelInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageCreateOrConnectWithoutChatInput = {
+export type MessageUpdateManyWithoutModelNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput> | Prisma.MessageCreateWithoutModelInput[] | Prisma.MessageUncheckedCreateWithoutModelInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutModelInput | Prisma.MessageCreateOrConnectWithoutModelInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutModelInput | Prisma.MessageUpsertWithWhereUniqueWithoutModelInput[]
+  createMany?: Prisma.MessageCreateManyModelInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutModelInput | Prisma.MessageUpdateWithWhereUniqueWithoutModelInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutModelInput | Prisma.MessageUpdateManyWithWhereWithoutModelInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageUncheckedUpdateManyWithoutModelNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput> | Prisma.MessageCreateWithoutModelInput[] | Prisma.MessageUncheckedCreateWithoutModelInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutModelInput | Prisma.MessageCreateOrConnectWithoutModelInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutModelInput | Prisma.MessageUpsertWithWhereUniqueWithoutModelInput[]
+  createMany?: Prisma.MessageCreateManyModelInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutModelInput | Prisma.MessageUpdateWithWhereUniqueWithoutModelInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutModelInput | Prisma.MessageUpdateManyWithWhereWithoutModelInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageCreateNestedManyWithoutSenderBotProfileInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput> | Prisma.MessageCreateWithoutSenderBotProfileInput[] | Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput | Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput[]
+  createMany?: Prisma.MessageCreateManySenderBotProfileInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type MessageUncheckedCreateNestedManyWithoutSenderBotProfileInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput> | Prisma.MessageCreateWithoutSenderBotProfileInput[] | Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput | Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput[]
+  createMany?: Prisma.MessageCreateManySenderBotProfileInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type MessageUpdateManyWithoutSenderBotProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput> | Prisma.MessageCreateWithoutSenderBotProfileInput[] | Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput | Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSenderBotProfileInput | Prisma.MessageUpsertWithWhereUniqueWithoutSenderBotProfileInput[]
+  createMany?: Prisma.MessageCreateManySenderBotProfileInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSenderBotProfileInput | Prisma.MessageUpdateWithWhereUniqueWithoutSenderBotProfileInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSenderBotProfileInput | Prisma.MessageUpdateManyWithWhereWithoutSenderBotProfileInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageUncheckedUpdateManyWithoutSenderBotProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput> | Prisma.MessageCreateWithoutSenderBotProfileInput[] | Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput | Prisma.MessageCreateOrConnectWithoutSenderBotProfileInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSenderBotProfileInput | Prisma.MessageUpsertWithWhereUniqueWithoutSenderBotProfileInput[]
+  createMany?: Prisma.MessageCreateManySenderBotProfileInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSenderBotProfileInput | Prisma.MessageUpdateWithWhereUniqueWithoutSenderBotProfileInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSenderBotProfileInput | Prisma.MessageUpdateManyWithWhereWithoutSenderBotProfileInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageCreateNestedManyWithoutChatSessionInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput> | Prisma.MessageCreateWithoutChatSessionInput[] | Prisma.MessageUncheckedCreateWithoutChatSessionInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatSessionInput | Prisma.MessageCreateOrConnectWithoutChatSessionInput[]
+  createMany?: Prisma.MessageCreateManyChatSessionInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type MessageUncheckedCreateNestedManyWithoutChatSessionInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput> | Prisma.MessageCreateWithoutChatSessionInput[] | Prisma.MessageUncheckedCreateWithoutChatSessionInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatSessionInput | Prisma.MessageCreateOrConnectWithoutChatSessionInput[]
+  createMany?: Prisma.MessageCreateManyChatSessionInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type MessageUpdateManyWithoutChatSessionNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput> | Prisma.MessageCreateWithoutChatSessionInput[] | Prisma.MessageUncheckedCreateWithoutChatSessionInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatSessionInput | Prisma.MessageCreateOrConnectWithoutChatSessionInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutChatSessionInput | Prisma.MessageUpsertWithWhereUniqueWithoutChatSessionInput[]
+  createMany?: Prisma.MessageCreateManyChatSessionInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutChatSessionInput | Prisma.MessageUpdateWithWhereUniqueWithoutChatSessionInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutChatSessionInput | Prisma.MessageUpdateManyWithWhereWithoutChatSessionInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageUncheckedUpdateManyWithoutChatSessionNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput> | Prisma.MessageCreateWithoutChatSessionInput[] | Prisma.MessageUncheckedCreateWithoutChatSessionInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutChatSessionInput | Prisma.MessageCreateOrConnectWithoutChatSessionInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutChatSessionInput | Prisma.MessageUpsertWithWhereUniqueWithoutChatSessionInput[]
+  createMany?: Prisma.MessageCreateManyChatSessionInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutChatSessionInput | Prisma.MessageUpdateWithWhereUniqueWithoutChatSessionInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutChatSessionInput | Prisma.MessageUpdateManyWithWhereWithoutChatSessionInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutRepliesInput, Prisma.MessageUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.MessageWhereUniqueInput
+}
+
+export type MessageCreateNestedManyWithoutReplyToMessageInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput> | Prisma.MessageCreateWithoutReplyToMessageInput[] | Prisma.MessageUncheckedCreateWithoutReplyToMessageInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutReplyToMessageInput | Prisma.MessageCreateOrConnectWithoutReplyToMessageInput[]
+  createMany?: Prisma.MessageCreateManyReplyToMessageInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type MessageUncheckedCreateNestedManyWithoutReplyToMessageInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput> | Prisma.MessageCreateWithoutReplyToMessageInput[] | Prisma.MessageUncheckedCreateWithoutReplyToMessageInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutReplyToMessageInput | Prisma.MessageCreateOrConnectWithoutReplyToMessageInput[]
+  createMany?: Prisma.MessageCreateManyReplyToMessageInputEnvelope
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+}
+
+export type EnumMessageSenderTypeFieldUpdateOperationsInput = {
+  set?: $Enums.MessageSenderType
+}
+
+export type EnumMessageRoleFieldUpdateOperationsInput = {
+  set?: $Enums.MessageRole
+}
+
+export type EnumMessageStatusFieldUpdateOperationsInput = {
+  set?: $Enums.MessageStatus
+}
+
+export type BigIntFieldUpdateOperationsInput = {
+  set?: bigint | number
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
+export type MessageUpdateOneWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutRepliesInput, Prisma.MessageUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.MessageUpsertWithoutRepliesInput
+  disconnect?: Prisma.MessageWhereInput | boolean
+  delete?: Prisma.MessageWhereInput | boolean
+  connect?: Prisma.MessageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutRepliesInput, Prisma.MessageUpdateWithoutRepliesInput>, Prisma.MessageUncheckedUpdateWithoutRepliesInput>
+}
+
+export type MessageUpdateManyWithoutReplyToMessageNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput> | Prisma.MessageCreateWithoutReplyToMessageInput[] | Prisma.MessageUncheckedCreateWithoutReplyToMessageInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutReplyToMessageInput | Prisma.MessageCreateOrConnectWithoutReplyToMessageInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutReplyToMessageInput | Prisma.MessageUpsertWithWhereUniqueWithoutReplyToMessageInput[]
+  createMany?: Prisma.MessageCreateManyReplyToMessageInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutReplyToMessageInput | Prisma.MessageUpdateWithWhereUniqueWithoutReplyToMessageInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutReplyToMessageInput | Prisma.MessageUpdateManyWithWhereWithoutReplyToMessageInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput> | Prisma.MessageCreateWithoutReplyToMessageInput[] | Prisma.MessageUncheckedCreateWithoutReplyToMessageInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutReplyToMessageInput | Prisma.MessageCreateOrConnectWithoutReplyToMessageInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutReplyToMessageInput | Prisma.MessageUpsertWithWhereUniqueWithoutReplyToMessageInput[]
+  createMany?: Prisma.MessageCreateManyReplyToMessageInputEnvelope
+  set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutReplyToMessageInput | Prisma.MessageUpdateWithWhereUniqueWithoutReplyToMessageInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutReplyToMessageInput | Prisma.MessageUpdateManyWithWhereWithoutReplyToMessageInput[]
+  deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
+}
+
+export type MessageCreateNestedOneWithoutAttachmentsInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentsInput
+  connect?: Prisma.MessageWhereUniqueInput
+}
+
+export type MessageUpdateOneRequiredWithoutAttachmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutAttachmentsInput
+  upsert?: Prisma.MessageUpsertWithoutAttachmentsInput
+  connect?: Prisma.MessageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.MessageUpdateWithoutAttachmentsInput>, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
+}
+
+export type MessageCreateNestedOneWithoutTriggeredAiRequestsInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedCreateWithoutTriggeredAiRequestsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutTriggeredAiRequestsInput
+  connect?: Prisma.MessageWhereUniqueInput
+}
+
+export type MessageUpdateOneWithoutTriggeredAiRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedCreateWithoutTriggeredAiRequestsInput>
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutTriggeredAiRequestsInput
+  upsert?: Prisma.MessageUpsertWithoutTriggeredAiRequestsInput
+  disconnect?: Prisma.MessageWhereInput | boolean
+  delete?: Prisma.MessageWhereInput | boolean
+  connect?: Prisma.MessageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MessageUpdateToOneWithWhereWithoutTriggeredAiRequestsInput, Prisma.MessageUpdateWithoutTriggeredAiRequestsInput>, Prisma.MessageUncheckedUpdateWithoutTriggeredAiRequestsInput>
+}
+
+export type MessageCreateWithoutSenderUserInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutSenderUserInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutSenderUserInput = {
   where: Prisma.MessageWhereUniqueInput
-  create: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput>
 }
 
-export type MessageCreateManyChatInputEnvelope = {
-  data: Prisma.MessageCreateManyChatInput | Prisma.MessageCreateManyChatInput[]
+export type MessageCreateManySenderUserInputEnvelope = {
+  data: Prisma.MessageCreateManySenderUserInput | Prisma.MessageCreateManySenderUserInput[]
   skipDuplicates?: boolean
 }
 
-export type MessageUpsertWithWhereUniqueWithoutChatInput = {
+export type MessageUpsertWithWhereUniqueWithoutSenderUserInput = {
   where: Prisma.MessageWhereUniqueInput
-  update: Prisma.XOR<Prisma.MessageUpdateWithoutChatInput, Prisma.MessageUncheckedUpdateWithoutChatInput>
-  create: Prisma.XOR<Prisma.MessageCreateWithoutChatInput, Prisma.MessageUncheckedCreateWithoutChatInput>
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutSenderUserInput, Prisma.MessageUncheckedUpdateWithoutSenderUserInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutSenderUserInput, Prisma.MessageUncheckedCreateWithoutSenderUserInput>
 }
 
-export type MessageUpdateWithWhereUniqueWithoutChatInput = {
+export type MessageUpdateWithWhereUniqueWithoutSenderUserInput = {
   where: Prisma.MessageWhereUniqueInput
-  data: Prisma.XOR<Prisma.MessageUpdateWithoutChatInput, Prisma.MessageUncheckedUpdateWithoutChatInput>
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutSenderUserInput, Prisma.MessageUncheckedUpdateWithoutSenderUserInput>
 }
 
-export type MessageUpdateManyWithWhereWithoutChatInput = {
+export type MessageUpdateManyWithWhereWithoutSenderUserInput = {
   where: Prisma.MessageScalarWhereInput
-  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutChatInput>
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutSenderUserInput>
 }
 
 export type MessageScalarWhereInput = {
@@ -374,89 +991,1185 @@ export type MessageScalarWhereInput = {
   OR?: Prisma.MessageScalarWhereInput[]
   NOT?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
   id?: Prisma.UuidFilter<"Message"> | string
-  chatId?: Prisma.UuidFilter<"Message"> | string
-  content?: Prisma.JsonFilter<"Message">
+  chatSessionId?: Prisma.UuidFilter<"Message"> | string
+  senderType?: Prisma.EnumMessageSenderTypeFilter<"Message"> | $Enums.MessageSenderType
+  senderUserId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  senderBotProfileId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  role?: Prisma.EnumMessageRoleFilter<"Message"> | $Enums.MessageRole
+  externalMessageId?: Prisma.StringNullableFilter<"Message"> | string | null
+  replyToMessageId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  contentText?: Prisma.StringNullableFilter<"Message"> | string | null
+  contentJson?: Prisma.JsonFilter<"Message">
+  modelId?: Prisma.UuidNullableFilter<"Message"> | string | null
+  status?: Prisma.EnumMessageStatusFilter<"Message"> | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFilter<"Message"> | bigint | number
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Message"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Message"> | Date | string | null
 }
 
-export type MessageCreateManyChatInput = {
+export type MessageCreateWithoutModelInput = {
   id?: string
-  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
   createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
 }
 
-export type MessageUpdateWithoutChatInput = {
+export type MessageUncheckedCreateWithoutModelInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutModelInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput>
+}
+
+export type MessageCreateManyModelInputEnvelope = {
+  data: Prisma.MessageCreateManyModelInput | Prisma.MessageCreateManyModelInput[]
+  skipDuplicates?: boolean
+}
+
+export type MessageUpsertWithWhereUniqueWithoutModelInput = {
+  where: Prisma.MessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutModelInput, Prisma.MessageUncheckedUpdateWithoutModelInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutModelInput, Prisma.MessageUncheckedCreateWithoutModelInput>
+}
+
+export type MessageUpdateWithWhereUniqueWithoutModelInput = {
+  where: Prisma.MessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutModelInput, Prisma.MessageUncheckedUpdateWithoutModelInput>
+}
+
+export type MessageUpdateManyWithWhereWithoutModelInput = {
+  where: Prisma.MessageScalarWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutModelInput>
+}
+
+export type MessageCreateWithoutSenderBotProfileInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutSenderBotProfileInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutSenderBotProfileInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput>
+}
+
+export type MessageCreateManySenderBotProfileInputEnvelope = {
+  data: Prisma.MessageCreateManySenderBotProfileInput | Prisma.MessageCreateManySenderBotProfileInput[]
+  skipDuplicates?: boolean
+}
+
+export type MessageUpsertWithWhereUniqueWithoutSenderBotProfileInput = {
+  where: Prisma.MessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutSenderBotProfileInput, Prisma.MessageUncheckedUpdateWithoutSenderBotProfileInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutSenderBotProfileInput, Prisma.MessageUncheckedCreateWithoutSenderBotProfileInput>
+}
+
+export type MessageUpdateWithWhereUniqueWithoutSenderBotProfileInput = {
+  where: Prisma.MessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutSenderBotProfileInput, Prisma.MessageUncheckedUpdateWithoutSenderBotProfileInput>
+}
+
+export type MessageUpdateManyWithWhereWithoutSenderBotProfileInput = {
+  where: Prisma.MessageScalarWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutSenderBotProfileInput>
+}
+
+export type MessageCreateWithoutChatSessionInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutChatSessionInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutChatSessionInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput>
+}
+
+export type MessageCreateManyChatSessionInputEnvelope = {
+  data: Prisma.MessageCreateManyChatSessionInput | Prisma.MessageCreateManyChatSessionInput[]
+  skipDuplicates?: boolean
+}
+
+export type MessageUpsertWithWhereUniqueWithoutChatSessionInput = {
+  where: Prisma.MessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutChatSessionInput, Prisma.MessageUncheckedUpdateWithoutChatSessionInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutChatSessionInput, Prisma.MessageUncheckedCreateWithoutChatSessionInput>
+}
+
+export type MessageUpdateWithWhereUniqueWithoutChatSessionInput = {
+  where: Prisma.MessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutChatSessionInput, Prisma.MessageUncheckedUpdateWithoutChatSessionInput>
+}
+
+export type MessageUpdateManyWithWhereWithoutChatSessionInput = {
+  where: Prisma.MessageScalarWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutChatSessionInput>
+}
+
+export type MessageCreateWithoutRepliesInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutRepliesInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutRepliesInput, Prisma.MessageUncheckedCreateWithoutRepliesInput>
+}
+
+export type MessageCreateWithoutReplyToMessageInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutReplyToMessageInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutReplyToMessageInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput>
+}
+
+export type MessageCreateManyReplyToMessageInputEnvelope = {
+  data: Prisma.MessageCreateManyReplyToMessageInput | Prisma.MessageCreateManyReplyToMessageInput[]
+  skipDuplicates?: boolean
+}
+
+export type MessageUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutRepliesInput, Prisma.MessageUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutRepliesInput, Prisma.MessageUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.MessageWhereInput
+}
+
+export type MessageUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.MessageWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutRepliesInput, Prisma.MessageUncheckedUpdateWithoutRepliesInput>
+}
+
+export type MessageUpdateWithoutRepliesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
 }
 
-export type MessageUncheckedUpdateWithoutChatInput = {
+export type MessageUncheckedUpdateWithoutRepliesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
 }
 
-export type MessageUncheckedUpdateManyWithoutChatInput = {
+export type MessageUpsertWithWhereUniqueWithoutReplyToMessageInput = {
+  where: Prisma.MessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutReplyToMessageInput, Prisma.MessageUncheckedUpdateWithoutReplyToMessageInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutReplyToMessageInput, Prisma.MessageUncheckedCreateWithoutReplyToMessageInput>
+}
+
+export type MessageUpdateWithWhereUniqueWithoutReplyToMessageInput = {
+  where: Prisma.MessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutReplyToMessageInput, Prisma.MessageUncheckedUpdateWithoutReplyToMessageInput>
+}
+
+export type MessageUpdateManyWithWhereWithoutReplyToMessageInput = {
+  where: Prisma.MessageScalarWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageInput>
+}
+
+export type MessageCreateWithoutAttachmentsInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  triggeredAiRequests?: Prisma.AiRequestCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageUncheckedCreateWithoutAttachmentsInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedCreateNestedManyWithoutTriggerMessageInput
+}
+
+export type MessageCreateOrConnectWithoutAttachmentsInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+}
+
+export type MessageUpsertWithoutAttachmentsInput = {
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentsInput, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutAttachmentsInput, Prisma.MessageUncheckedCreateWithoutAttachmentsInput>
+  where?: Prisma.MessageWhereInput
+}
+
+export type MessageUpdateToOneWithWhereWithoutAttachmentsInput = {
+  where?: Prisma.MessageWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutAttachmentsInput, Prisma.MessageUncheckedUpdateWithoutAttachmentsInput>
+}
+
+export type MessageUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
 }
 
+export type MessageUncheckedUpdateWithoutAttachmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageCreateWithoutTriggeredAiRequestsInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  chatSession: Prisma.ChatSessionCreateNestedOneWithoutMessagesInput
+  senderUser?: Prisma.UserCreateNestedOneWithoutSentMessagesInput
+  senderBotProfile?: Prisma.BotProfileCreateNestedOneWithoutSentMessagesInput
+  replyToMessage?: Prisma.MessageCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.MessageCreateNestedManyWithoutReplyToMessageInput
+  model?: Prisma.AiModelCreateNestedOneWithoutMessagesInput
+  attachments?: Prisma.MessageAttachmentCreateNestedManyWithoutMessageInput
+}
+
+export type MessageUncheckedCreateWithoutTriggeredAiRequestsInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  replies?: Prisma.MessageUncheckedCreateNestedManyWithoutReplyToMessageInput
+  attachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutMessageInput
+}
+
+export type MessageCreateOrConnectWithoutTriggeredAiRequestsInput = {
+  where: Prisma.MessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.MessageCreateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedCreateWithoutTriggeredAiRequestsInput>
+}
+
+export type MessageUpsertWithoutTriggeredAiRequestsInput = {
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedUpdateWithoutTriggeredAiRequestsInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedCreateWithoutTriggeredAiRequestsInput>
+  where?: Prisma.MessageWhereInput
+}
+
+export type MessageUpdateToOneWithWhereWithoutTriggeredAiRequestsInput = {
+  where?: Prisma.MessageWhereInput
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutTriggeredAiRequestsInput, Prisma.MessageUncheckedUpdateWithoutTriggeredAiRequestsInput>
+}
+
+export type MessageUpdateWithoutTriggeredAiRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutTriggeredAiRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+}
+
+export type MessageCreateManySenderUserInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type MessageUpdateWithoutSenderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutSenderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateManyWithoutSenderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type MessageCreateManyModelInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type MessageUpdateWithoutModelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutModelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateManyWithoutModelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type MessageCreateManySenderBotProfileInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type MessageUpdateWithoutSenderBotProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutSenderBotProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateManyWithoutSenderBotProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type MessageCreateManyChatSessionInput = {
+  id?: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  replyToMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type MessageUpdateWithoutChatSessionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replyToMessage?: Prisma.MessageUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutChatSessionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateManyWithoutChatSessionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  replyToMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type MessageCreateManyReplyToMessageInput = {
+  id?: string
+  chatSessionId: string
+  senderType: $Enums.MessageSenderType
+  senderUserId?: string | null
+  senderBotProfileId?: string | null
+  role: $Enums.MessageRole
+  externalMessageId?: string | null
+  contentText?: string | null
+  contentJson: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: string | null
+  status?: $Enums.MessageStatus
+  sequenceNo: bigint | number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type MessageUpdateWithoutReplyToMessageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chatSession?: Prisma.ChatSessionUpdateOneRequiredWithoutMessagesNestedInput
+  senderUser?: Prisma.UserUpdateOneWithoutSentMessagesNestedInput
+  senderBotProfile?: Prisma.BotProfileUpdateOneWithoutSentMessagesNestedInput
+  replies?: Prisma.MessageUpdateManyWithoutReplyToMessageNestedInput
+  model?: Prisma.AiModelUpdateOneWithoutMessagesNestedInput
+  attachments?: Prisma.MessageAttachmentUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateWithoutReplyToMessageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  replies?: Prisma.MessageUncheckedUpdateManyWithoutReplyToMessageNestedInput
+  attachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutMessageNestedInput
+  triggeredAiRequests?: Prisma.AiRequestUncheckedUpdateManyWithoutTriggerMessageNestedInput
+}
+
+export type MessageUncheckedUpdateManyWithoutReplyToMessageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  senderType?: Prisma.EnumMessageSenderTypeFieldUpdateOperationsInput | $Enums.MessageSenderType
+  senderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senderBotProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumMessageRoleFieldUpdateOperationsInput | $Enums.MessageRole
+  externalMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentJson?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  modelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  sequenceNo?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type MessageCountOutputType
+ */
+
+export type MessageCountOutputType = {
+  replies: number
+  attachments: number
+  triggeredAiRequests: number
+}
+
+export type MessageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  replies?: boolean | MessageCountOutputTypeCountRepliesArgs
+  attachments?: boolean | MessageCountOutputTypeCountAttachmentsArgs
+  triggeredAiRequests?: boolean | MessageCountOutputTypeCountTriggeredAiRequestsArgs
+}
+
+/**
+ * MessageCountOutputType without action
+ */
+export type MessageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MessageCountOutputType
+   */
+  select?: Prisma.MessageCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MessageCountOutputType without action
+ */
+export type MessageCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
+}
+
+/**
+ * MessageCountOutputType without action
+ */
+export type MessageCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageAttachmentWhereInput
+}
+
+/**
+ * MessageCountOutputType without action
+ */
+export type MessageCountOutputTypeCountTriggeredAiRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiRequestWhereInput
+}
 
 
 export type MessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
-  content?: boolean
+  chatSessionId?: boolean
+  senderType?: boolean
+  senderUserId?: boolean
+  senderBotProfileId?: boolean
+  role?: boolean
+  externalMessageId?: boolean
+  replyToMessageId?: boolean
+  contentText?: boolean
+  contentJson?: boolean
+  modelId?: boolean
+  status?: boolean
+  sequenceNo?: boolean
   createdAt?: boolean
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  updatedAt?: boolean
+  deletedAt?: boolean
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  replies?: boolean | Prisma.Message$repliesArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
+  attachments?: boolean | Prisma.Message$attachmentsArgs<ExtArgs>
+  triggeredAiRequests?: boolean | Prisma.Message$triggeredAiRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.MessageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
 
 export type MessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
-  content?: boolean
+  chatSessionId?: boolean
+  senderType?: boolean
+  senderUserId?: boolean
+  senderBotProfileId?: boolean
+  role?: boolean
+  externalMessageId?: boolean
+  replyToMessageId?: boolean
+  contentText?: boolean
+  contentJson?: boolean
+  modelId?: boolean
+  status?: boolean
+  sequenceNo?: boolean
   createdAt?: boolean
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  updatedAt?: boolean
+  deletedAt?: boolean
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
 
 export type MessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
-  content?: boolean
+  chatSessionId?: boolean
+  senderType?: boolean
+  senderUserId?: boolean
+  senderBotProfileId?: boolean
+  role?: boolean
+  externalMessageId?: boolean
+  replyToMessageId?: boolean
+  contentText?: boolean
+  contentJson?: boolean
+  modelId?: boolean
+  status?: boolean
+  sequenceNo?: boolean
   createdAt?: boolean
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  updatedAt?: boolean
+  deletedAt?: boolean
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
 
 export type MessageSelectScalar = {
   id?: boolean
-  chatId?: boolean
-  content?: boolean
+  chatSessionId?: boolean
+  senderType?: boolean
+  senderUserId?: boolean
+  senderBotProfileId?: boolean
+  role?: boolean
+  externalMessageId?: boolean
+  replyToMessageId?: boolean
+  contentText?: boolean
+  contentJson?: boolean
+  modelId?: boolean
+  status?: boolean
+  sequenceNo?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chatId" | "content" | "createdAt", ExtArgs["result"]["message"]>
+export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chatSessionId" | "senderType" | "senderUserId" | "senderBotProfileId" | "role" | "externalMessageId" | "replyToMessageId" | "contentText" | "contentJson" | "modelId" | "status" | "sequenceNo" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["message"]>
 export type MessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  replies?: boolean | Prisma.Message$repliesArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
+  attachments?: boolean | Prisma.Message$attachmentsArgs<ExtArgs>
+  triggeredAiRequests?: boolean | Prisma.Message$triggeredAiRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.MessageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
 }
 export type MessageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chat?: boolean | Prisma.ChatDefaultArgs<ExtArgs>
+  chatSession?: boolean | Prisma.ChatSessionDefaultArgs<ExtArgs>
+  senderUser?: boolean | Prisma.Message$senderUserArgs<ExtArgs>
+  senderBotProfile?: boolean | Prisma.Message$senderBotProfileArgs<ExtArgs>
+  replyToMessage?: boolean | Prisma.Message$replyToMessageArgs<ExtArgs>
+  model?: boolean | Prisma.Message$modelArgs<ExtArgs>
 }
 
 export type $MessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Message"
   objects: {
-    chat: Prisma.$ChatPayload<ExtArgs>
+    chatSession: Prisma.$ChatSessionPayload<ExtArgs>
+    senderUser: Prisma.$UserPayload<ExtArgs> | null
+    senderBotProfile: Prisma.$BotProfilePayload<ExtArgs> | null
+    replyToMessage: Prisma.$MessagePayload<ExtArgs> | null
+    replies: Prisma.$MessagePayload<ExtArgs>[]
+    model: Prisma.$AiModelPayload<ExtArgs> | null
+    attachments: Prisma.$MessageAttachmentPayload<ExtArgs>[]
+    triggeredAiRequests: Prisma.$AiRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    chatId: string
-    content: runtime.JsonValue
+    chatSessionId: string
+    senderType: $Enums.MessageSenderType
+    senderUserId: string | null
+    senderBotProfileId: string | null
+    role: $Enums.MessageRole
+    externalMessageId: string | null
+    replyToMessageId: string | null
+    contentText: string | null
+    contentJson: runtime.JsonValue
+    modelId: string | null
+    status: $Enums.MessageStatus
+    sequenceNo: bigint
     createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["message"]>
   composites: {}
 }
@@ -851,7 +2564,14 @@ readonly fields: MessageFieldRefs;
  */
 export interface Prisma__MessageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  chat<T extends Prisma.ChatDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatClient<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  chatSession<T extends Prisma.ChatSessionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChatSessionDefaultArgs<ExtArgs>>): Prisma.Prisma__ChatSessionClient<runtime.Types.Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  senderUser<T extends Prisma.Message$senderUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$senderUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  senderBotProfile<T extends Prisma.Message$senderBotProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$senderBotProfileArgs<ExtArgs>>): Prisma.Prisma__BotProfileClient<runtime.Types.Result.GetResult<Prisma.$BotProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  replyToMessage<T extends Prisma.Message$replyToMessageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$replyToMessageArgs<ExtArgs>>): Prisma.Prisma__MessageClient<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  replies<T extends Prisma.Message$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  model<T extends Prisma.Message$modelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$modelArgs<ExtArgs>>): Prisma.Prisma__AiModelClient<runtime.Types.Result.GetResult<Prisma.$AiModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  attachments<T extends Prisma.Message$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  triggeredAiRequests<T extends Prisma.Message$triggeredAiRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Message$triggeredAiRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -882,9 +2602,21 @@ export interface Prisma__MessageClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface MessageFieldRefs {
   readonly id: Prisma.FieldRef<"Message", 'String'>
-  readonly chatId: Prisma.FieldRef<"Message", 'String'>
-  readonly content: Prisma.FieldRef<"Message", 'Json'>
+  readonly chatSessionId: Prisma.FieldRef<"Message", 'String'>
+  readonly senderType: Prisma.FieldRef<"Message", 'MessageSenderType'>
+  readonly senderUserId: Prisma.FieldRef<"Message", 'String'>
+  readonly senderBotProfileId: Prisma.FieldRef<"Message", 'String'>
+  readonly role: Prisma.FieldRef<"Message", 'MessageRole'>
+  readonly externalMessageId: Prisma.FieldRef<"Message", 'String'>
+  readonly replyToMessageId: Prisma.FieldRef<"Message", 'String'>
+  readonly contentText: Prisma.FieldRef<"Message", 'String'>
+  readonly contentJson: Prisma.FieldRef<"Message", 'Json'>
+  readonly modelId: Prisma.FieldRef<"Message", 'String'>
+  readonly status: Prisma.FieldRef<"Message", 'MessageStatus'>
+  readonly sequenceNo: Prisma.FieldRef<"Message", 'BigInt'>
   readonly createdAt: Prisma.FieldRef<"Message", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Message", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Message", 'DateTime'>
 }
     
 
@@ -1283,6 +3015,154 @@ export type MessageDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Messages to delete.
    */
   limit?: number
+}
+
+/**
+ * Message.senderUser
+ */
+export type Message$senderUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * Message.senderBotProfile
+ */
+export type Message$senderBotProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BotProfile
+   */
+  select?: Prisma.BotProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BotProfile
+   */
+  omit?: Prisma.BotProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotProfileInclude<ExtArgs> | null
+  where?: Prisma.BotProfileWhereInput
+}
+
+/**
+ * Message.replyToMessage
+ */
+export type Message$replyToMessageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+}
+
+/**
+ * Message.replies
+ */
+export type Message$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * Message.model
+ */
+export type Message$modelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiModel
+   */
+  select?: Prisma.AiModelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiModel
+   */
+  omit?: Prisma.AiModelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiModelInclude<ExtArgs> | null
+  where?: Prisma.AiModelWhereInput
+}
+
+/**
+ * Message.attachments
+ */
+export type Message$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MessageAttachment
+   */
+  select?: Prisma.MessageAttachmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MessageAttachment
+   */
+  omit?: Prisma.MessageAttachmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageAttachmentInclude<ExtArgs> | null
+  where?: Prisma.MessageAttachmentWhereInput
+  orderBy?: Prisma.MessageAttachmentOrderByWithRelationInput | Prisma.MessageAttachmentOrderByWithRelationInput[]
+  cursor?: Prisma.MessageAttachmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageAttachmentScalarFieldEnum | Prisma.MessageAttachmentScalarFieldEnum[]
+}
+
+/**
+ * Message.triggeredAiRequests
+ */
+export type Message$triggeredAiRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiRequest
+   */
+  select?: Prisma.AiRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiRequest
+   */
+  omit?: Prisma.AiRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiRequestInclude<ExtArgs> | null
+  where?: Prisma.AiRequestWhereInput
+  orderBy?: Prisma.AiRequestOrderByWithRelationInput | Prisma.AiRequestOrderByWithRelationInput[]
+  cursor?: Prisma.AiRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AiRequestScalarFieldEnum | Prisma.AiRequestScalarFieldEnum[]
 }
 
 /**

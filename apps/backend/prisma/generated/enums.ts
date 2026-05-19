@@ -9,7 +9,171 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const AiProviderStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  DISABLED: 'DISABLED'
+} as const
+
+export type AiProviderStatus = (typeof AiProviderStatus)[keyof typeof AiProviderStatus]
+
+
+export const AiModelStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  DISABLED: 'DISABLED'
+} as const
+
+export type AiModelStatus = (typeof AiModelStatus)[keyof typeof AiModelStatus]
+
+
+export const BotType = {
+  PROMPT: 'PROMPT',
+  IMAGE_GENERATION: 'IMAGE_GENERATION',
+  VIDEO_GENERATION: 'VIDEO_GENERATION',
+  ROLEPLAY: 'ROLEPLAY',
+  SCRIPT: 'SCRIPT',
+  SERVER: 'SERVER'
+} as const
+
+export type BotType = (typeof BotType)[keyof typeof BotType]
+
+
+export const ChatSessionVisibility = {
+  PRIVATE: 'PRIVATE',
+  INVITED: 'INVITED',
+  PUBLIC_READONLY: 'PUBLIC_READONLY'
+} as const
+
+export type ChatSessionVisibility = (typeof ChatSessionVisibility)[keyof typeof ChatSessionVisibility]
+
+
+export const ChatSessionStatus = {
+  ACTIVE: 'ACTIVE',
+  DELETED: 'DELETED'
+} as const
+
+export type ChatSessionStatus = (typeof ChatSessionStatus)[keyof typeof ChatSessionStatus]
+
+
+export const ChatParticipantRole = {
+  OWNER: 'OWNER',
+  EDITOR: 'EDITOR',
+  VIEWER: 'VIEWER'
+} as const
+
+export type ChatParticipantRole = (typeof ChatParticipantRole)[keyof typeof ChatParticipantRole]
+
+
+export const ChatParticipantStatus = {
+  ACTIVE: 'ACTIVE',
+  INVITED: 'INVITED',
+  REMOVED: 'REMOVED',
+  LEFT: 'LEFT'
+} as const
+
+export type ChatParticipantStatus = (typeof ChatParticipantStatus)[keyof typeof ChatParticipantStatus]
+
+
+export const ChatSharePermission = {
+  VIEW: 'VIEW',
+  CHAT: 'CHAT'
+} as const
+
+export type ChatSharePermission = (typeof ChatSharePermission)[keyof typeof ChatSharePermission]
+
+
+export const MessageSenderType = {
+  USER: 'USER',
+  BOT: 'BOT',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type MessageSenderType = (typeof MessageSenderType)[keyof typeof MessageSenderType]
+
+
+export const MessageRole = {
+  USER: 'USER',
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM',
+  TOOL: 'TOOL'
+} as const
+
+export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole]
+
+
+export const MessageStatus = {
+  PENDING: 'PENDING',
+  STREAMING: 'STREAMING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  EDITED: 'EDITED',
+  DELETED: 'DELETED'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
+
+
+export const StorageProvider = {
+  S3: 'S3',
+  R2: 'R2',
+  SUPABASE: 'SUPABASE'
+} as const
+
+export type StorageProvider = (typeof StorageProvider)[keyof typeof StorageProvider]
+
+
+export const MessageAttachmentStatus = {
+  PENDING: 'PENDING',
+  UPLOADED: 'UPLOADED',
+  FAILED: 'FAILED',
+  DELETED: 'DELETED'
+} as const
+
+export type MessageAttachmentStatus = (typeof MessageAttachmentStatus)[keyof typeof MessageAttachmentStatus]
+
+
+export const AiRequestStatus = {
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  TIMEOUT: 'TIMEOUT',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type AiRequestStatus = (typeof AiRequestStatus)[keyof typeof AiRequestStatus]
+
+
+export const PointWalletStatus = {
+  ACTIVE: 'ACTIVE',
+  LOCKED: 'LOCKED'
+} as const
+
+export type PointWalletStatus = (typeof PointWalletStatus)[keyof typeof PointWalletStatus]
+
+
+export const PointTransactionType = {
+  TOPUP: 'TOPUP',
+  USAGE_DEBIT: 'USAGE_DEBIT',
+  REFUND: 'REFUND',
+  BONUS: 'BONUS',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT'
+} as const
+
+export type PointTransactionType = (typeof PointTransactionType)[keyof typeof PointTransactionType]
+
+
+export const PointReferenceType = {
+  AI_REQUEST: 'AI_REQUEST',
+  PAYMENT: 'PAYMENT',
+  ADMIN_ACTION: 'ADMIN_ACTION'
+} as const
+
+export type PointReferenceType = (typeof PointReferenceType)[keyof typeof PointReferenceType]

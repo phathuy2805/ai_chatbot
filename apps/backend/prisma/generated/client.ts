@@ -29,8 +29,8 @@ export * from "./enums.js"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Chats
- * const chats = await prisma.chat.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -40,12 +40,72 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
- * Model Chat
+ * Model User
  * 
  */
-export type Chat = Prisma.ChatModel
+export type User = Prisma.UserModel
+/**
+ * Model AiProvider
+ * 
+ */
+export type AiProvider = Prisma.AiProviderModel
+/**
+ * Model AiModel
+ * 
+ */
+export type AiModel = Prisma.AiModelModel
+/**
+ * Model BotProfile
+ * 
+ */
+export type BotProfile = Prisma.BotProfileModel
+/**
+ * Model ChatSession
+ * 
+ */
+export type ChatSession = Prisma.ChatSessionModel
+/**
+ * Model ChatParticipant
+ * 
+ */
+export type ChatParticipant = Prisma.ChatParticipantModel
+/**
+ * Model ChatShareLink
+ * 
+ */
+export type ChatShareLink = Prisma.ChatShareLinkModel
 /**
  * Model Message
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model MessageAttachment
+ * 
+ */
+export type MessageAttachment = Prisma.MessageAttachmentModel
+/**
+ * Model AiRequest
+ * 
+ */
+export type AiRequest = Prisma.AiRequestModel
+/**
+ * Model PointWallet
+ * 
+ */
+export type PointWallet = Prisma.PointWalletModel
+/**
+ * Model PointTransaction
+ * 
+ */
+export type PointTransaction = Prisma.PointTransactionModel
+/**
+ * Model PricingRule
+ * 
+ */
+export type PricingRule = Prisma.PricingRuleModel
+/**
+ * Model UsageCharge
+ * 
+ */
+export type UsageCharge = Prisma.UsageChargeModel

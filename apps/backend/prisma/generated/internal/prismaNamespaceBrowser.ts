@@ -51,8 +51,20 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Chat: 'Chat',
-  Message: 'Message'
+  User: 'User',
+  AiProvider: 'AiProvider',
+  AiModel: 'AiModel',
+  BotProfile: 'BotProfile',
+  ChatSession: 'ChatSession',
+  ChatParticipant: 'ChatParticipant',
+  ChatShareLink: 'ChatShareLink',
+  Message: 'Message',
+  MessageAttachment: 'MessageAttachment',
+  AiRequest: 'AiRequest',
+  PointWallet: 'PointWallet',
+  PointTransaction: 'PointTransaction',
+  PricingRule: 'PricingRule',
+  UsageCharge: 'UsageCharge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,22 +83,243 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ChatScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
+  googleUserId: 'googleUserId',
+  email: 'email',
+  displayName: 'displayName',
+  password: 'password',
+  phoneNumber: 'phoneNumber',
+  avatarUrl: 'avatarUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastLoginAt: 'lastLoginAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AiProviderScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  displayName: 'displayName',
+  status: 'status',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
+export type AiProviderScalarFieldEnum = (typeof AiProviderScalarFieldEnum)[keyof typeof AiProviderScalarFieldEnum]
+
+
+export const AiModelScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  externalModelId: 'externalModelId',
+  modelKey: 'modelKey',
+  displayName: 'displayName',
+  supportsVision: 'supportsVision',
+  supportsTools: 'supportsTools',
+  supportsStreaming: 'supportsStreaming',
+  status: 'status',
+  metadataJson: 'metadataJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AiModelScalarFieldEnum = (typeof AiModelScalarFieldEnum)[keyof typeof AiModelScalarFieldEnum]
+
+
+export const BotProfileScalarFieldEnum = {
+  id: 'id',
+  ownerUserId: 'ownerUserId',
+  botType: 'botType',
+  baseBotProfileId: 'baseBotProfileId',
+  name: 'name',
+  description: 'description',
+  avatarUrl: 'avatarUrl',
+  systemPrompt: 'systemPrompt',
+  greetingMessagesJson: 'greetingMessagesJson',
+  defaultModelId: 'defaultModelId',
+  temperatureDefault: 'temperatureDefault',
+  maxTokensDefault: 'maxTokensDefault',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BotProfileScalarFieldEnum = (typeof BotProfileScalarFieldEnum)[keyof typeof BotProfileScalarFieldEnum]
+
+
+export const ChatSessionScalarFieldEnum = {
+  id: 'id',
+  ownerUserId: 'ownerUserId',
+  title: 'title',
+  defaultBotProfileId: 'defaultBotProfileId',
+  defaultModelId: 'defaultModelId',
+  visibility: 'visibility',
+  status: 'status',
+  lastMessageAt: 'lastMessageAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChatSessionScalarFieldEnum = (typeof ChatSessionScalarFieldEnum)[keyof typeof ChatSessionScalarFieldEnum]
+
+
+export const ChatParticipantScalarFieldEnum = {
+  id: 'id',
+  chatSessionId: 'chatSessionId',
+  userId: 'userId',
+  role: 'role',
+  status: 'status',
+  invitedByUserId: 'invitedByUserId',
+  joinedAt: 'joinedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ChatParticipantScalarFieldEnum = (typeof ChatParticipantScalarFieldEnum)[keyof typeof ChatParticipantScalarFieldEnum]
+
+
+export const ChatShareLinkScalarFieldEnum = {
+  id: 'id',
+  chatSessionId: 'chatSessionId',
+  createdByUserId: 'createdByUserId',
+  token: 'token',
+  permission: 'permission',
+  expiresAt: 'expiresAt',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type ChatShareLinkScalarFieldEnum = (typeof ChatShareLinkScalarFieldEnum)[keyof typeof ChatShareLinkScalarFieldEnum]
 
 
 export const MessageScalarFieldEnum = {
   id: 'id',
-  chatId: 'chatId',
-  content: 'content',
-  createdAt: 'createdAt'
+  chatSessionId: 'chatSessionId',
+  senderType: 'senderType',
+  senderUserId: 'senderUserId',
+  senderBotProfileId: 'senderBotProfileId',
+  role: 'role',
+  externalMessageId: 'externalMessageId',
+  replyToMessageId: 'replyToMessageId',
+  contentText: 'contentText',
+  contentJson: 'contentJson',
+  modelId: 'modelId',
+  status: 'status',
+  sequenceNo: 'sequenceNo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const MessageAttachmentScalarFieldEnum = {
+  id: 'id',
+  messageId: 'messageId',
+  storageProvider: 'storageProvider',
+  bucketName: 'bucketName',
+  objectKey: 'objectKey',
+  publicUrl: 'publicUrl',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  fileSizeBytes: 'fileSizeBytes',
+  checksum: 'checksum',
+  uploadStatus: 'uploadStatus',
+  isTemporary: 'isTemporary',
+  expiresAt: 'expiresAt',
+  metadataJson: 'metadataJson',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
+
+
+export const AiRequestScalarFieldEnum = {
+  id: 'id',
+  chatSessionId: 'chatSessionId',
+  triggerMessageId: 'triggerMessageId',
+  requestedByUserId: 'requestedByUserId',
+  botProfileId: 'botProfileId',
+  providerId: 'providerId',
+  modelId: 'modelId',
+  inputTokens: 'inputTokens',
+  outputTokens: 'outputTokens',
+  latencyMs: 'latencyMs',
+  status: 'status',
+  errorCode: 'errorCode',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AiRequestScalarFieldEnum = (typeof AiRequestScalarFieldEnum)[keyof typeof AiRequestScalarFieldEnum]
+
+
+export const PointWalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PointWalletScalarFieldEnum = (typeof PointWalletScalarFieldEnum)[keyof typeof PointWalletScalarFieldEnum]
+
+
+export const PointTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  transactionType: 'transactionType',
+  amount: 'amount',
+  balanceBefore: 'balanceBefore',
+  balanceAfter: 'balanceAfter',
+  referenceType: 'referenceType',
+  referenceId: 'referenceId',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type PointTransactionScalarFieldEnum = (typeof PointTransactionScalarFieldEnum)[keyof typeof PointTransactionScalarFieldEnum]
+
+
+export const PricingRuleScalarFieldEnum = {
+  id: 'id',
+  modelId: 'modelId',
+  inputPointsPer1kTokens: 'inputPointsPer1kTokens',
+  outputPointsPer1kTokens: 'outputPointsPer1kTokens',
+  minimumPointsPerRequest: 'minimumPointsPerRequest',
+  isActive: 'isActive',
+  effectiveFrom: 'effectiveFrom',
+  effectiveTo: 'effectiveTo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PricingRuleScalarFieldEnum = (typeof PricingRuleScalarFieldEnum)[keyof typeof PricingRuleScalarFieldEnum]
+
+
+export const UsageChargeScalarFieldEnum = {
+  id: 'id',
+  aiRequestId: 'aiRequestId',
+  walletId: 'walletId',
+  pricingRuleId: 'pricingRuleId',
+  inputTokens: 'inputTokens',
+  outputTokens: 'outputTokens',
+  chargedPoints: 'chargedPoints',
+  pointTransactionId: 'pointTransactionId',
+  createdAt: 'createdAt'
+} as const
+
+export type UsageChargeScalarFieldEnum = (typeof UsageChargeScalarFieldEnum)[keyof typeof UsageChargeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -95,6 +328,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {
@@ -110,6 +351,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {

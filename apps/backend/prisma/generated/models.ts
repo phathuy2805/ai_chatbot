@@ -8,6 +8,18 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Chat.js'
+export type * from './models/User.js'
+export type * from './models/AiProvider.js'
+export type * from './models/AiModel.js'
+export type * from './models/BotProfile.js'
+export type * from './models/ChatSession.js'
+export type * from './models/ChatParticipant.js'
+export type * from './models/ChatShareLink.js'
 export type * from './models/Message.js'
+export type * from './models/MessageAttachment.js'
+export type * from './models/AiRequest.js'
+export type * from './models/PointWallet.js'
+export type * from './models/PointTransaction.js'
+export type * from './models/PricingRule.js'
+export type * from './models/UsageCharge.js'
 export type * from './commonInputTypes.js'
